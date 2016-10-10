@@ -35,6 +35,9 @@
         <activity
             android:name="wordsCard.ShowWordActivity">
         </activity>
+        <activity
+            android:name="com.knowmemo.usermanagement.SearchByhandActivity">
+        </activity>
     </application>
 
 </manifest>
