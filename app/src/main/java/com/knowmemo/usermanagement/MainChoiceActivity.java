@@ -24,6 +24,15 @@ public class MainChoiceActivity extends AppCompatActivity {
         Button game_test = (Button) findViewById(R.id.button_gameTest);
         Button setting_time = (Button) findViewById(R.id.button_settingTime);
 
+        search_word.setOnClickListener(new Button.OnClickListener(){
+
+            public void onClick(View v) {
+
+                jumpToSearchword();
+            }
+
+        });
+
         learn_word.setOnClickListener(new Button.OnClickListener(){
 
             public void onClick(View v) {
@@ -42,6 +51,14 @@ public class MainChoiceActivity extends AppCompatActivity {
             setContentView(R.layout.activity_level_choice);
             //Button l= (Button)findViewById(R.id.Button02);
             Intent intent = new Intent(MainChoiceActivity.this, LevelChoiceActivity.class);
+            startActivity(intent);
+
+        }
+
+        public void jumpToSearchword(){
+
+            setContentView(R.layout.activity_searchbyhand);
+            Intent intent = new Intent(MainChoiceActivity.this, SearchByhandActivity.class);
             startActivity(intent);
 
         }

@@ -11,7 +11,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText" />
+            android:id="@+id/editText"
+            android:inputType="textCapSentences|textCapWords" />
 
         <Button
             android:layout_width="wrap_content"
@@ -26,16 +27,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="334dp"
-        android:layout_weight="1.18">
+        android:layout_height="match_parent">
 
-        <WebView
-            android:layout_width="295dp"
-            android:layout_height="272dp"
-            android:id="@+id/webView"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="43dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="New Text"
+            android:id="@+id/enginfo"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/buttonAdd"
+            android:layout_alignParentEnd="true" />
 
         <Button
             android:layout_width="wrap_content"
@@ -45,7 +46,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="82dp" />
+            android:layout_marginBottom="52dp" />
+
     </RelativeLayout>
 
 </LinearLayout>
