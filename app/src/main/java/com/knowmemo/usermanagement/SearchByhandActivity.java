@@ -56,20 +56,24 @@ public class SearchByhandActivity extends Activity {
                         try
                         {
                             String input = et.getText().toString();
-                            String url = "https://glosbe.com/gapi/translate?from=eng&dest=zh&format=json&phrase="+input+"&pretty=true" ;
+                            String inputfind = input.toString().toLowerCase();
+                            String url = "https://glosbe.com/gapi/translate?from=eng&dest=zh&format=json&phrase="+inputfind+"&pretty=true" ;
                             HttpClient mHttpClient = new DefaultHttpClient();
                             HttpGet mHttpGet = new HttpGet(url);
                             HttpResponse mHttpResponse = mHttpClient.execute(mHttpGet);
 
                             if(mHttpResponse.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK )
                             {
-                                output.setText("ok");
-//                                String mJsonText = EntityUtils.toString(mHttpResponse.getEntity());
-//                                String ID = new JSONObject (mJsonText).getJSONObject("0").getString("phrase");
+//                                output.setText("OK");
+                                String mJsonText = EntityUtils.toString(mHttpResponse.getEntity());
 
+                                String ID =new JSONObject( new JSONArray(new JSONObject(mJsonText).getString("tuc")).getJSONObject(0).getString("phrase")).getString("text");
+
+//
+                                output.setText("解釋:"+ID);
                             }
                             else
-                                output.setText("wrong");
+                                output.setText("wrong wrong wrong");
                         }
                         catch(Exception e)
                         {
