@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp">
+
+        <Button
+            android:layout_width="169dp"
+            android:layout_height="wrap_content"
+            android:text="學習提醒"
+            android:id="@+id/button_toremind"
+            android:layout_gravity="bottom|center"
+            android:textSize="25dp"
+            android:background="@color/accent_material_dark" />
+
+        <Button
+            android:layout_width="171dp"
+            android:layout_height="wrap_content"
+            android:text="鬧鐘"
+            android:id="@+id/button_toalarm"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25dp"
+            android:clickable="false"
+            android:layout_marginTop="50dp"
+            android:background="@color/accent_material_dark" />
+
+        <Button
+            android:layout_width="138dp"
+            android:layout_height="wrap_content"
+            android:text="返回"
+            android:id="@+id/button_tochoice"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25dp"
+            android:background="@color/accent_material_dark"
+            android:layout_marginTop="100dp" />
+    </LinearLayout>
+</LinearLayout>
