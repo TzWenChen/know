@@ -25,7 +25,7 @@ public class LevelChoiceActivity extends AppCompatActivity {
     public void jumpToLearnWord(){
         setContentView(R.layout.activity_show_word);
         //Button l= (Button)findViewById(R.id.Button02);
-        Intent intent = new Intent(LevelChoiceActivity.this, ShowWordActivity.class);
+        Intent intent = new Intent(LevelChoiceActivity.this, wordsCard.ShowWordActivity.class);
         startActivity(intent);
 
     }
