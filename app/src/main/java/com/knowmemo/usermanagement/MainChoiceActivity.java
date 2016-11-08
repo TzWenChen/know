@@ -44,27 +44,57 @@ public class MainChoiceActivity extends AppCompatActivity {
             }
 
         });
+        setting_time.setOnClickListener(new Button.OnClickListener(){
+
+            public void onClick(View v) {
+
+                jumpToSettingTime();
+            }
+
+        });
+        game_test.setOnClickListener(new Button.OnClickListener(){
+
+            public void onClick(View v) {
+
+                jumpToGameTest();
+            }
+
+        });
     }
 
-        public void jumpToLearnWord(){
+    public void jumpToLearnWord(){
 
-            setContentView(R.layout.activity_level_choice);
-            //Button l= (Button)findViewById(R.id.Button02);
-            Intent intent = new Intent(MainChoiceActivity.this, LevelChoiceActivity.class);
-            startActivity(intent);
-
-        }
-
-        public void jumpToSearchword(){
-
-            setContentView(R.layout.activity_searchbyhand);
-            Intent intent = new Intent(MainChoiceActivity.this, SearchByhandActivity.class);
-            startActivity(intent);
-
-        }
-
+        setContentView(R.layout.activity_level_choice);
+        //Button l= (Button)findViewById(R.id.Button02);
+        Intent intent = new Intent(MainChoiceActivity.this, LevelChoiceActivity.class);
+        startActivity(intent);
 
     }
+
+    public void jumpToSearchword(){
+
+        setContentView(R.layout.activity_searchbyhand);
+        Intent intent = new Intent(MainChoiceActivity.this, SearchByhandActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void jumpToGameTest(){
+
+        setContentView(R.layout.activity_game_home);
+        Intent intent = new Intent(MainChoiceActivity.this, GameHomeActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void jumpToSettingTime(){
+
+        setContentView(R.layout.activity_setting_time);
+        Intent intent = new Intent(MainChoiceActivity.this, SettingTimeActivity.class);
+        startActivity(intent);
+
+    }
+}
 
 
 
