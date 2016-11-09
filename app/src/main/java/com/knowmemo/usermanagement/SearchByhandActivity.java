@@ -26,8 +26,10 @@ import java.net.HttpURLConnection;
  */
 public class SearchByhandActivity extends Activity {
 
-    Button buttonSearch;
 
+    Button buttonSearch;
+    String inputfind = "";
+    String resaultID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,14 +39,14 @@ public class SearchByhandActivity extends Activity {
         setContentView(R.layout.activity_searchbyhand);
 
         Button btn_Search = (Button) findViewById(R.id.buttonSearch);
+        Button button_Add = (Button) findViewById(R.id.buttonAdd);
+
 
         btn_Search.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View arg0)
             {
-
-
 
                 new Thread(new Runnable()
                 {
@@ -56,7 +58,7 @@ public class SearchByhandActivity extends Activity {
                         try
                         {
                             String input = et.getText().toString();
-                            String inputfind = input.toString().toLowerCase();
+                            inputfind = input.toString().toLowerCase();
                             String url = "https://glosbe.com/gapi/translate?from=eng&dest=zh&format=json&phrase="+inputfind+"&pretty=true" ;
                             HttpClient mHttpClient = new DefaultHttpClient();
                             HttpGet mHttpGet = new HttpGet(url);
@@ -64,22 +66,35 @@ public class SearchByhandActivity extends Activity {
 
                             if(mHttpResponse.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK )
                             {
-//                                output.setText("OK");
                                 String mJsonText = EntityUtils.toString(mHttpResponse.getEntity());
 
-                                String ID =new JSONObject( new JSONArray(new JSONObject(mJsonText).getString("tuc")).getJSONObject(0).getString("phrase")).getString("text");
-
+                                for (int i=0;i<3;i++)
+                                {
+                                    String ID =new JSONObject( new JSONArray(new JSONObject(mJsonText).getString("tuc")).getJSONObject(i).getString("phrase")).getString("text");
+                                    resaultID+=ID+"、";
+                                }
+                                output.setText("中文解釋："+ resaultID);
 //
-                                output.setText("解釋:"+ID);
+
                             }
                             else
-                                output.setText("wrong wrong wrong");
+                                output.setText("wrong");
                         }
                         catch(Exception e)
                         {
                         }
                     }
                 }).start();
+            }});
+        button_Add.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View arg0)
+            {
+
+
+
+
             }});
 
 
