@@ -47,6 +47,21 @@
         <activity
             android:name="com.knowmemo.usermanagement.GameHomeActivity">
         </activity>
+        <activity
+            android:name="com.knowmemo.usermanagement.SingleTestActivity">
+        </activity>
+        <activity
+            android:name="com.knowmemo.usermanagement.SingleReadyActivity">
+        </activity>
+        <activity
+            android:name="com.knowmemo.usermanagement.MultiHomeActivity">
+        </activity>
+        <activity
+            android:name="com.knowmemo.usermanagement.MultiChooseRivalActivity">
+        </activity>
+        <activity
+            android:name="com.knowmemo.usermanagement.MultiConnectActivity">
+        </activity>
 		<!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data
