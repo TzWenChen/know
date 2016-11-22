@@ -14,5 +14,56 @@ public class GameHomeActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_home);
 
+        Button btn_single = (Button) findViewById(R.id.btn_single);
+        Button btn_multi = (Button) findViewById(R.id.btn_multi);
+        Button btn_rank = (Button) findViewById(R.id.btn_rank);
+
+        btn_single.setOnClickListener(new Button.OnClickListener(){
+
+            public void onClick(View v) {
+
+                jumpToSingle();
+            }
+
+        });
+
+        btn_multi.setOnClickListener(new Button.OnClickListener(){
+
+            public void onClick(View v) {
+
+                jumpToMultiHome();
+            }
+
+        });
+
+        btn_single.setOnClickListener(new Button.OnClickListener(){
+
+            public void onClick(View v) {
+
+                jumpToRank();
+            }
+
+        });
+    }
+
+    public void jumpToSingle(){
+
+        setContentView(R.layout.single_ready);
+        Intent intent = new Intent(GameHomeActivity.this, SingleReadyActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void jumpToMultiHome(){
+
+        setContentView(R.layout.multi_home);
+        Intent intent = new Intent(GameHomeActivity.this, SingleReadyActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void jumpToRank(){
+
+        setContentView(R.layout.single_rank);
     }
 }
