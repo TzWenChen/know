@@ -9,11 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class SqlHelper extends SQLiteOpenHelper {
 
-    private final String DATABASE_PATH = android.os.Environment
-            .getExternalStorageDirectory().getAbsolutePath()
-            + "/Test";
+    private final String DATABASE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Test";
     public static final String db_name = "vocabulary.db";
-    public static final int VERSION = 1;
+    public static final int VERSION = 2;
 
     private static SQLiteDatabase db;
 
@@ -37,17 +35,24 @@ public class SqlHelper extends SQLiteOpenHelper {
         db.execSQL(sqlite.tableDao.createMeaningTable);
         db.execSQL(sqlite.tableDao.createExpTable);
         db.execSQL(sqlite.tableDao.createCategoriesTable);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // 刪除原有的表格
-        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.words);
-        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.meaning);
-        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.exp);
-        db.execSQL("DROP TABLE IF EXISTS " + tableDao.categories);
+//        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.words);
+//        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.meaning);
+//        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.exp);
+//        db.execSQL("DROP TABLE IF EXISTS " + tableDao.categories);
+//        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.favorites);
         //呼叫onCreate建立新版的表格
-        onCreate(db);
+        if(newVersion > oldVersion){
+            db.execSQL(sqlite.tableDao.createFavoritesTable);
+        }else {
+            onCreate(db);
+        }
+
     }
 
 }
