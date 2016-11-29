@@ -1,13 +1,17 @@
 package com.knowmemo.usermanagement;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.util.Log;
+import android.widget.Toast;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -18,16 +22,16 @@ import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 
-
-
-
+import sqlite.tableDao;
+import sqlite.SqlHelper;
+import sqlite.Words;
+import com.spreada.utils.chinese.ZHConverter;
 /**
  * Created by TingEn on 2016/10/11.
  */
 public class SearchByhandActivity extends Activity {
-
-
-    Button buttonSearch;
+    int countCursor = 0 ;
+    tableDao tabledao;
     String inputfind = "";
     String resaultID = "";
 
@@ -37,7 +41,6 @@ public class SearchByhandActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchbyhand);
-
         Button btn_Search = (Button) findViewById(R.id.buttonSearch);
         Button button_Add = (Button) findViewById(R.id.buttonAdd);
 
@@ -68,13 +71,37 @@ public class SearchByhandActivity extends Activity {
                             {
                                 String mJsonText = EntityUtils.toString(mHttpResponse.getEntity());
 
-                                for (int i=0;i<3;i++)
-                                {
-                                    String ID =new JSONObject( new JSONArray(new JSONObject(mJsonText).getString("tuc")).getJSONObject(i).getString("phrase")).getString("text");
-                                    resaultID+=ID+"、";
+
+                                countCursor++;
+                                if(countCursor!=1){
+                                    resaultID="";
                                 }
-                                output.setText("中文解釋："+ resaultID);
-//
+                               A: for (int i=0;i<3;i++)
+                                {   JSONArray jsonarray =new JSONArray(new JSONObject(mJsonText).getString("tuc"));
+                                    if(jsonarray.length()!=0){
+                                        String ID =new JSONObject( jsonarray.getJSONObject(i).getString("phrase")).getString("text");
+
+                                        if( i==2){
+                                            resaultID+=ID;
+                                        }else{
+                                            resaultID+=ID+"、";
+                                        }
+                                    }
+                                    else{
+                                        break A;
+                                    }
+
+                                }
+                                if(resaultID!=""){
+                                    ZHConverter converter = ZHConverter.getInstance(ZHConverter.SIMPLIFIED);
+                                    String zhResault = converter.convert(resaultID, ZHConverter.TRADITIONAL);
+                                    resaultID=zhResault;
+                                    output.setText("中文解釋：\n"+ zhResault);
+                                }else{
+                                    output.setText(" NOT found");
+                                    Toast toast2 = Toast.makeText(getApplicationContext(),"Oops!", Toast.LENGTH_LONG);
+                                    toast2.show();
+                                }
 
                             }
                             else
@@ -88,18 +115,50 @@ public class SearchByhandActivity extends Activity {
             }});
         button_Add.setOnClickListener(new View.OnClickListener()
         {
+
             @Override
             public void onClick(View arg0)
             {
 
 
+                tabledao = new tableDao(getApplicationContext());
 
+                if (tabledao.getFavorsCount() == 0){
 
-            }});
+                    tabledao.insertFavorites(inputfind, resaultID);
+                }else
+                {
+                    if(resaultID==""){
+                        Toast toast4 = Toast.makeText(getApplicationContext(),"沒有搜尋結果", Toast.LENGTH_LONG);
+                        toast4.show();
+                    }else if(tabledao.getFavoritesbyWord(inputfind)){
+                        Toast toast3 = Toast.makeText(getApplicationContext(),"單字已新增過", Toast.LENGTH_LONG);
+                        toast3.show();
+                    }else{
 
+                        tabledao.insertFavorites(inputfind, resaultID);
 
+                        Toast toast = Toast.makeText(getApplicationContext(),"已新增!", Toast.LENGTH_LONG);
+                        toast.show();
 
+                    }
+
+                }
+            }
+
+        });
     }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event)
+//    {
+//        if(keyCode == KeyEvent.KEYCODE_BACK){
+////            Intent myIntent = new Intent();
+////            myIntent = new Intent(SearchByhandActivity.this, MainChoiceActivity.class);
+////            startActivity(myIntent);
+//
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
 }
 
