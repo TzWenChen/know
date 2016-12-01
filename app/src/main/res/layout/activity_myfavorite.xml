@@ -10,10 +10,4 @@
         android:id="@+id/favorInfo"
         android:layout_weight="0.93" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button14"
-        android:layout_gravity="center_horizontal" />
 </LinearLayout>

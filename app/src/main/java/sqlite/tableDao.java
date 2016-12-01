@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.knowmemo.usermanagement.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,9 +88,17 @@ public class tableDao {
     }
 
 
-    public boolean deleteFavorites() {
-        // 刪除指定編號資料並回傳刪除是否成功
-        return db.delete(favorites, null, null) > 0;
+    /*****
+     * 跟　favorites相關的所有SQL語法
+     *****/
+
+
+    public boolean deleteFavorItem(String theWord) {
+
+        String where = "favor_word" +  "=\"" + theWord + "\"";
+
+        // 刪除指定資料並回傳刪除是否成功
+        return db.delete(favorites, where, null) > 0;
     }
     public int getFavorsCount() {
         int result = 0;
@@ -102,15 +112,10 @@ public class tableDao {
         return result;
     }
     public void insertFavorites(String favorWord, String meaning ) {
-
-//        String sql="";
-//        sql = "INSERT INTO favorites (favor_word,favor_meaning) values( favorWord , meaning)";
-//        db.execSQL(sql);//新增至資料
         // 建立準備新增資料的ContentValues物件
         ContentValues cv = new ContentValues();
             // 加入ContentValues物件包裝的新增資料
             // 第一個參數是欄位名稱， 第二個參數是欄位的資料
-//            cv.put("favor_id", 1);
             cv.put("favor_word", favorWord);
             cv.put("favor_meaning", meaning);
 
@@ -138,27 +143,26 @@ public class tableDao {
         // 回傳結果
         return result;
     }
-    public List<Map<String,Object >> getFavoritesWords() {
+    public ArrayList<HashMap<String,Object >> getFavoritesWords() {
         Cursor cursor = null;
-        List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
-
-
+        ArrayList<HashMap<String, Object>> result = new ArrayList<HashMap<String,Object>>();
         // 執行查詢
         cursor = db.query(
                 favorites, null, null, null, null, null, null, null);
 
         while (cursor.moveToNext()) {
-            Map<String, Object> item = new HashMap<String, Object>();
+            HashMap<String, Object> item = new HashMap<String, Object>();
             item.put("單字",cursor.getString(1));
             item.put("解釋",cursor.getString(2));
+            item.put("按鈕", R.drawable.trash);
             result.add(item);
         }
-
         // 關閉Cursor物件
         cursor.close();
         // 回傳結果
         return result;
     }
+
     /*****
      * 跟word相關的所有SQL語法
      *****/
