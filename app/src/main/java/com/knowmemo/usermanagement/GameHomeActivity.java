@@ -36,7 +36,7 @@ public class GameHomeActivity extends AppCompatActivity{
 
         });
 
-        btn_single.setOnClickListener(new Button.OnClickListener(){
+        btn_rank.setOnClickListener(new Button.OnClickListener(){
 
             public void onClick(View v) {
 
