@@ -37,17 +37,27 @@ public class SqlHelper extends SQLiteOpenHelper {
         db.execSQL(sqlite.tableDao.createMeaningTable);
         db.execSQL(sqlite.tableDao.createExpTable);
         db.execSQL(sqlite.tableDao.createCategoriesTable);
+        db.execSQL(sqlite.tableDao.createRootTable);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // 刪除原有的表格
-        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.words);
-        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.meaning);
-        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.exp);
+        /*
+
         db.execSQL("DROP TABLE IF EXISTS " + tableDao.categories);
+        db.execSQL("DROP TABLE IF EXISTS " + tableDao.root);*/
         //呼叫onCreate建立新版的表格
-        onCreate(db);
+
+            //由之前不用的版本，可做不同的動作
+            /*if(newVersion>oldVersion) {
+                db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.words);
+                db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.meaning);
+                db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.exp);
+                //db.execSQL(sqlite.tableDao.createRootTable);
+                onCreate(db);
+            }*/
+
     }
 
 }
