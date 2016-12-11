@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by User on 2016/1/30.
@@ -19,6 +21,7 @@ public class tableDao {
     public static final String exp = "exp";
     public static final String categories = "categories";
     public static final String root = "root";
+    public static final String favorites = "favorites";
     public static int box_level_1_Limit = 10;
     public static int box_level_2_Limit = 20;
     public static int box_level_3_Limit = 40;
@@ -56,6 +59,11 @@ public class tableDao {
             + "word VARCHAR(20) NOT NULL,"
             + "catagory INTEGER(11) NOT NULL)";
 
+    public static final String createFavoritesTable = "CREATE TABLE IF NOT EXISTS " + favorites
+            + " (favor_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "favor_word VARCHAR(20) NOT NULL,"
+            + "favor_meaning VARCHAR(20) NOT NULL)";
+
 
     // 建構子，一般的應用都不需要修改
     public tableDao(Context context) {
@@ -67,6 +75,80 @@ public class tableDao {
         db.close();
     }
 
+
+    public boolean deleteFavorites() {
+        // 刪除指定編號資料並回傳刪除是否成功
+        return db.delete(favorites, null, null) > 0;
+    }
+    public int getFavorsCount() {
+        int result = 0;
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + favorites, null);
+
+        if (cursor.moveToNext()) {
+            result = cursor.getInt(0);
+        }
+
+        cursor.close();
+        return result;
+    }
+    public void insertFavorites(String favorWord, String meaning ) {
+
+//        String sql="";
+//        sql = "INSERT INTO favorites (favor_word,favor_meaning) values( favorWord , meaning)";
+//        db.execSQL(sql);//新增至資料
+        // 建立準備新增資料的ContentValues物件
+        ContentValues cv = new ContentValues();
+            // 加入ContentValues物件包裝的新增資料
+            // 第一個參數是欄位名稱， 第二個參數是欄位的資料
+//            cv.put("favor_id", 1);
+            cv.put("favor_word", favorWord);
+            cv.put("favor_meaning", meaning);
+
+            // 第一個參數是表格名稱
+            // 第二個參數是沒有指定欄位值的預設值
+            // 第三個參數是包裝新增資料的ContentValues物件
+            db.insert(favorites, null, cv);
+
+    }
+    public boolean getFavoritesbyWord(String theWord) {
+        boolean result =true;
+        Cursor cursor = null;
+
+        String where = "favor_word" +  "=\"" + theWord + "\"";
+        // 執行查詢
+        cursor = db.query(
+                favorites, null, where, null, null, null, null, null);
+
+        if (!cursor.moveToFirst()) {
+            result = false;
+        }
+
+        // 關閉Cursor物件
+        cursor.close();
+        // 回傳結果
+        return result;
+    }
+    public List<Map<String,Object >> getFavoritesWords() {
+        Cursor cursor = null;
+        List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+
+
+        // 執行查詢
+        cursor = db.query(
+                favorites, null, null, null, null, null, null, null);
+
+        while (cursor.moveToNext()) {
+            Map<String, Object> item = new HashMap<String, Object>();
+            item.put("單字",cursor.getString(1));
+            item.put("解釋",cursor.getString(2));
+            result.add(item);
+        }
+
+        // 關閉Cursor物件
+        cursor.close();
+        // 回傳結果
+        return result;
+    }
     /*****
      * 跟word相關的所有SQL語法
      *****/
@@ -89,35 +171,54 @@ public class tableDao {
         db.insert(words, null, cv);
     }
 
-    // 讀取所有words記事資料
-    public List<sqlite.Words> getAllWords() {
-        List<sqlite.Words> result = new ArrayList<>();
-        Cursor cursor = db.query(
-                words, null, null, null, null, null, null, null);
+//    // 讀取所有words記事資料
+//    public List<sqlite.Words> getAllWords() {
+//        List<sqlite.Words> result = new ArrayList<>();
+//        Cursor cursor = db.query(
+//                words, null, null, null, null, null, null, null);
+//
+//        while (cursor.moveToNext()) {
+//            result.add(getWordsRecord(cursor));
+//        }
+//
+//        cursor.close();
+//        return result;
+//    }
 
-        while (cursor.moveToNext()) {
-            result.add(getWordsRecord(cursor));
-        }
+//    // 讀取相對應的words記事資料
+//    public List<sqlite.Words> getWords(String wordsType) {
+//        List<sqlite.Words> result = new ArrayList<>();
+//        String where = "TOEIC" + "= " + "1";
+//        Cursor cursor = db.query(
+//                words, null, where, null, null, null, null, null);
+//
+//        while (cursor.moveToNext()) {
+//            result.add(getWordsRecord(cursor));
+//        }
+//
+//        cursor.close();
+//        return result;
+//    }
 
-        cursor.close();
-        return result;
-    }
+    public boolean getWordsByWord(String theWord) {
+        // 準備回傳結果用的物件
+        boolean result =true;
+        Cursor cursor = null;
 
-    // 讀取相對應的words記事資料
-    public List<sqlite.Words> getWords(String wordsType) {
-        List<sqlite.Words> result = new ArrayList<>();
-        String where = "TOEIC" + "= " + "1";
-        Cursor cursor = db.query(
+        String where = "word" + "=" + theWord;
+        // 執行查詢
+        cursor = db.query(
                 words, null, where, null, null, null, null, null);
 
-        while (cursor.moveToNext()) {
-            result.add(getWordsRecord(cursor));
+        while (!cursor.moveToFirst()) {
+            result = false;
         }
 
+        // 關閉Cursor物件
         cursor.close();
+        // 回傳結果
         return result;
     }
-
     public List<sqlite.Words> getWordsById(List<Exp> expReturnList) {
         // 準備回傳結果用的物件
         List<sqlite.Words> result = new ArrayList<>();
@@ -139,6 +240,40 @@ public class tableDao {
         return result;
     }
 
+    // 把Cursor目前的資料包裝為Words物件
+    /*public sqlite.Words getWordsRecord(Cursor cursor) {
+        // 準備回傳結果用的物件
+        sqlite.Words result = new sqlite.Words();
+
+        result.setW_id(cursor.getInt(0));
+        result.setWord(cursor.getString(1));
+        result.setR_id(cursor.getInt(2));
+
+
+        // 回傳結果
+        return result;
+    }*/
+
+//    public List<sqlite.Words> topSomeWords(int max) {
+//        List<sqlite.Words> result = new ArrayList<>();
+//        System.out.println("going to query Some data");
+//        Cursor cursor;
+//        int newmax = getExpCount()-20;
+//        String query = "";
+//        query = "SELECT * FROM words ORDER BY id ASC limit " + max +","+ newmax; //max+1~~max+1+10    21~30
+//
+//        cursor = db.rawQuery(query, null);
+//        System.out.println("query = " + query);
+//        while (cursor.moveToNext()) {
+//            result.add(getWordsRecord(cursor));
+//        }
+//        for (int i = 0; i < newmax; i++) {
+//            Exp expAdd = new Exp(user_id, result.get(i).getId(), 1, i, 1, "");
+//            this.insertExp(expAdd);
+//        }
+//        cursor.close();
+//        return result;
+//    }
     //選擇10張未學習過的卡片，新增至Exp table讓使用者學習
     public List<sqlite.Words> top10Words(int max) {
         List<sqlite.Words> result = new ArrayList<>();
@@ -149,7 +284,11 @@ public class tableDao {
             query = "SELECT * FROM words ORDER BY w_id ASC limit 0,10";
 
         } else {
+
             query = "SELECT * FROM words ORDER BY w_id ASC limit " + max + ",10";
+
+            //query = "SELECT * FROM words ORDER BY id ASC limit " + max + ",10"; //max+1~~max+1+10    21~30
+
         }
         cursor = db.rawQuery(query, null);
         System.out.println("query = " + query);
@@ -163,6 +302,7 @@ public class tableDao {
         cursor.close();
         return result;
     }
+
 
     // 把Cursor目前的資料包裝為Words物件
     public sqlite.Words getWordsRecord(Cursor cursor) {
@@ -182,22 +322,34 @@ public class tableDao {
     public int getWordsCount() {
         int result = 0;
         Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + words, null);
-
         if (cursor.moveToNext()) {
             result = cursor.getInt(0);
-        }
+      }
 
-        cursor.close();
-        return result;
+      cursor.close();
+       return result;
     }
 
-    // 刪除參數指定編號的資料
-    public boolean deleteWords(int id) {
-        // 設定條件為編號，格式為「欄位名稱=資料」
-        String where = id + "=" + id;
-        // 刪除指定編號資料並回傳刪除是否成功
-        return db.delete(words, where, null) > 0;
-    }
+//    // 取得words資料數量
+//    public int getWordsCount() {
+//        int result = 0;
+//        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + words, null);
+//
+//        if (cursor.moveToNext()) {
+//            result = cursor.getInt(0);
+//        }
+//
+//        cursor.close();
+//        return result;
+//    }
+
+//    // 刪除參數指定編號的資料
+//    public boolean deleteWords(int id) {
+//        // 設定條件為編號，格式為「欄位名稱=資料」
+//        String where = id + "=" + id;
+//        // 刪除指定編號資料並回傳刪除是否成功
+//        return db.delete(words, where, null) > 0;
+//    }
 
     // 刪除words的資料
     public boolean deleteWords() {
@@ -212,6 +364,7 @@ public class tableDao {
 
         rootCv.put("r_id",addRoot.getR_id());
         rootCv.put("root",addRoot.getRoot());
+
 
         db.insert(root,null,rootCv);
     }
@@ -290,28 +443,32 @@ public class tableDao {
         // 回傳結果
         return result;
     }
-
-    // 取得meaning資料數量
-    public int getMeaningCount() {
-        int result = 0;
-        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + meaning, null);
-
-        if (cursor.moveToNext()) {
-            result = cursor.getInt(0);
-        }
-        cursor.close();
-        return result;
-    }
-
     // 刪除meaning的資料
     public boolean deleteMeaning() {
         // 刪除指定編號資料並回傳刪除是否成功
         return db.delete(meaning, null, null) > 0;
     }
 
+
+//    // 取得meaning資料數量
+//    public int getMeaningCount() {
+//        int result = 0;
+//        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + meaning, null);
+//
+//        if (cursor.moveToNext()) {
+//            result = cursor.getInt(0);
+//        }
+//        cursor.close();
+//        return result;
+//    }
+
+
     /*****
      * 跟exp相關的SQL語法
      *****/
+
+
+
 
     // 新增Exp物件
     public void insertExp(Exp addExp) {
@@ -787,7 +944,7 @@ public class tableDao {
                 "300,amphibiology,6\n";
 
         String[] dataArray = data.split("\n");
-        for (int i = 0; i < dataArray.length; i++) {
+        for (int i = 0; i < 20; i++) {
 
             String[] wordsArray = dataArray[i].split(",");
             int w_id = Integer.parseInt(wordsArray[0]);
@@ -796,6 +953,14 @@ public class tableDao {
             insertWords(wordsAdd);
 
         }
+//        for (int i = 0; i < dataArray.length; i++) {
+//
+//            String[] wordsArray = dataArray[i].split(",");
+//            int id = Integer.parseInt(wordsArray[0]);
+//            sqlite.Words wordsAdd = new sqlite.Words(id, wordsArray[1], "", 0, 0, 0, 0, 0, 1, 0);
+//            insertWords(wordsAdd);
+//
+//        }
 
     }
 
@@ -1159,6 +1324,7 @@ public class tableDao {
 
     }
 
+
     public void sampleRoot(){
         String rootData = "1,tain\n" +
                 "2,bar\n" +
@@ -1253,6 +1419,13 @@ public class tableDao {
             insertExp(expAdd);
         }
     }
+
+//    public void sampleExp() {
+//        for (int i = 1; i <= 300; i++) {
+//            Exp expAdd = new Exp("user_test", i, 0, 0, 0, "");
+//            insertExp(expAdd);
+//        }
+//    }
 
 
 }

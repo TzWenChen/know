@@ -93,7 +93,8 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="0"
                     android:textSize="20sp"
-                    android:layout_weight="0.2" />
+                    android:layout_weight="0.13"
+                    android:textAlignment="center" />
 
                 <TextView
                     android:id="@+id/level2"
@@ -102,7 +103,8 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="0"
                     android:textSize="20sp"
-                    android:layout_weight="0.2" />
+                    android:layout_weight="0.13"
+                    android:textAlignment="center" />
 
                 <TextView
                     android:id="@+id/level3"
@@ -111,7 +113,8 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="0"
                     android:textSize="20sp"
-                    android:layout_weight="0.2" />
+                    android:layout_weight="0.13"
+                    android:textAlignment="center" />
 
                 <TextView
                     android:id="@+id/level4"
@@ -120,7 +123,8 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="0"
                     android:textSize="20sp"
-                    android:layout_weight="0.2" />
+                    android:layout_weight="0.13"
+                    android:textAlignment="center" />
 
                 <TextView
                     android:id="@+id/level5"
@@ -129,7 +133,18 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="0"
                     android:textSize="20sp"
-                    android:layout_weight="0.2" />
+                    android:layout_weight="0.13"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/level6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="0"
+                    android:textSize="20sp"
+                    android:layout_weight="0.13"
+                    android:textAlignment="center" />
             </LinearLayout>
 
             <LinearLayout
