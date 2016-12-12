@@ -1,9 +1,13 @@
 package wordsCard;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.knowmemo.usermanagement.ButtonTransparent;
+import com.knowmemo.usermanagement.MainActivity;
+import com.knowmemo.usermanagement.MainChoiceActivity;
 import com.knowmemo.usermanagement.R;
+import com.knowmemo.usermanagement.SettingTimeActivity;
 
 import java.util.List;
 import java.util.Locale;
@@ -31,6 +38,7 @@ public class ShowWordActivity extends ActionBarActivity {
     SqlHelper sqlHelper;
     List<Words> wordsReturnList;
     List<Meaning> meaningReturnList;
+    List<Words> RootResult;
     List<Exp> expReturnList;
     Exp expReturn;
     tableDao tabledao;
@@ -45,6 +53,9 @@ public class ShowWordActivity extends ActionBarActivity {
     Button rememberBtn;
     Button forgetBtn;
     ImageView imageSpeaker;
+    Button showRoot;
+    TextView showWord;
+    TextView showMeaning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +86,9 @@ public class ShowWordActivity extends ActionBarActivity {
         forgetBtn = (Button) findViewById(R.id.forgetBtn);
         forgetBtn.setOnTouchListener(new ButtonTransparent());
         imageSpeaker = (ImageView)findViewById(R.id.imageSpeaker);
+        showRoot = (Button) findViewById(R.id.showRoot);
+        showWord = (TextView)findViewById(R.id.showWord);
+        showMeaning = (TextView)findViewById(R.id.showMeaning);
         //初始化TextToSpeech 定義語言是US
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -95,6 +109,7 @@ public class ShowWordActivity extends ActionBarActivity {
             tabledao.deleteMeaning();
             tabledao.sampleMeaning();
             tabledao.deleteExp();
+            tabledao.sampleRoot();
         }
         //取10個單字加入levle1的箱子
         wordsReturnList = tabledao.top10Words(0);
@@ -110,7 +125,7 @@ public class ShowWordActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //取得目前單字的id
-                int wordId = wordsReturnList.get(count).getId();
+                int wordId = wordsReturnList.get(count).getW_id();
                 //利用id去找該id的exp
                 expReturn = tabledao.getExpById(wordId);
                 int level = expReturn.getLevel();
@@ -148,6 +163,9 @@ public class ShowWordActivity extends ActionBarActivity {
                 wordsText.setText(wordsReturnList.get(count).getWord());
                 System.out.println(tabledao.getExpCount());
                 meaningText.setText("點擊以顯示解釋");
+                showWord.setText("");
+                showMeaning.setText("");
+
             }
         });
 
@@ -156,7 +174,7 @@ public class ShowWordActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                int wordId = wordsReturnList.get(count).getId();
+                int wordId = wordsReturnList.get(count).getW_id();
                 expReturn = tabledao.getExpById(wordId);
                 int level = expReturn.getLevel();
                 int learnedTimes = expReturn.getLearned();
@@ -196,6 +214,8 @@ public class ShowWordActivity extends ActionBarActivity {
                 setBoxCount();
                 wordsText.setText(wordsReturnList.get(count).getWord());
                 meaningText.setText("點擊以顯示解釋");
+                showWord.setText("");
+                showMeaning.setText("");
 
             }
         });
@@ -205,7 +225,7 @@ public class ShowWordActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //取得現在那個單字的id
-                int searchId = wordsReturnList.get(count).getId();
+                int searchId = wordsReturnList.get(count).getW_id();
                 //由id去找所有的單字
                 meaningReturnList = tabledao.getMeaningById(searchId);
                 String meaningResult = "";
@@ -215,6 +235,36 @@ public class ShowWordActivity extends ActionBarActivity {
                             + meaningReturnList.get(i).getEngChiTra() + "  ";
                 }
                 meaningText.setText(meaningResult);
+            }
+        });
+        //點擊顯示同字根字首單字
+        showRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //找到目前單字ID的r_id
+                int searchRootId = wordsReturnList.get(count).getR_id();
+                String rootWordResult = "";
+                String meaningResult = "";
+                if(searchRootId != 0)
+                {
+                    //找出所有同root_id的word_id,word,root_id
+                    RootResult = tabledao.getWordByRootId(searchRootId);
+                    for (int i = 0; i < RootResult.size(); i++) {
+                        //取出同字根的單字放在rootWordResult
+                        rootWordResult += RootResult.get(i).getWord() + "\n";
+                        int rootWordId = RootResult.get(i).getW_id();
+
+                        meaningReturnList = tabledao.getMeaningById(rootWordId);
+                        for (int j = 0; j < meaningReturnList.size(); j++) {
+                            meaningResult += meaningReturnList.get(j).getPart_of_speech() + " "
+                                    + meaningReturnList.get(j).getEngChiTra() + "\n";
+                        }
+                    }
+
+                }
+
+                showWord.setText(rootWordResult);
+                showMeaning.setText(meaningResult);
             }
         });
 
@@ -284,4 +334,37 @@ public class ShowWordActivity extends ActionBarActivity {
 //        }
         return super.onOptionsItemSelected(item);
     }
+
+    //按下返回鍵
+    public boolean onKeyDown(int keyCode, KeyEvent event) {//捕捉返回鍵
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            moveTaskToBack(true);
+            setContentView(R.layout.activity_main_choice);
+            Intent intent = new Intent(wordsCard.ShowWordActivity.this, com.knowmemo.usermanagement.MainChoiceActivity.class);
+            startActivity(intent);
+            //ConfirmExit();//按返回鍵，則執行退出確認
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    /*public void ConfirmExit(){//退出確認
+        AlertDialog.Builder ad=new AlertDialog.Builder(wordsCard.ShowWordActivity.this);
+        ad.setTitle("離開");
+        ad.setMessage("確定要離開?");
+        ad.setPositiveButton("是", new DialogInterface.OnClickListener() {//退出按鈕
+            public void onClick(DialogInterface dialog, int i) {
+                // TODO Auto-generated method stub
+                this.finish();//關閉activity
+
+            }
+        });
+        ad.setNegativeButton("否",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int i) {
+                setContentView(R.layout.activity_main_choice);
+                Intent intent = new Intent(wordsCard.ShowWordActivity.this, com.knowmemo.usermanagement.MainChoiceActivity.class);
+                startActivity(intent);
+            }
+        });
+        ad.show();//示對話框
+    }*/
 }
