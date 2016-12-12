@@ -42,34 +42,19 @@ public class SqlHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // 刪除原有的表格
-
-        /*
-
+//         刪除原有的表格
+        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.words);
+        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.meaning);
+        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.exp);
         db.execSQL("DROP TABLE IF EXISTS " + tableDao.categories);
-        db.execSQL("DROP TABLE IF EXISTS " + tableDao.root);*/
-        //呼叫onCreate建立新版的表格
-
-            //由之前不用的版本，可做不同的動作
-            /*if(newVersion>oldVersion) {
-                db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.words);
-                db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.meaning);
-                db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.exp);
-                //db.execSQL(sqlite.tableDao.createRootTable);
-                onCreate(db);
-            }*/
-
-//        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.words);
-//        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.meaning);
-//        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.exp);
-//        db.execSQL("DROP TABLE IF EXISTS " + tableDao.categories);
-//        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.favorites);
-        //呼叫onCreate建立新版的表格
-        if(newVersion > oldVersion){
-            db.execSQL(sqlite.tableDao.createFavoritesTable);
-        }else {
-            onCreate(db);
-        }
+        db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.favorites);
+        onCreate(db);
+//        呼叫onCreate建立新版的表格
+//        if(newVersion > oldVersion){
+//            db.execSQL(sqlite.tableDao.createFavoritesTable);
+//        }else {
+//            onCreate(db);
+//        }
 
 
     }

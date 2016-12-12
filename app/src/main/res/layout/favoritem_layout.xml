@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal" android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="64dp"
+        android:layout_height="46dp"
         android:text="New Text"
         android:id="@+id/worditem"
         android:textSize="25dp" />
 
     <TextView
         android:layout_width="208dp"
-        android:layout_height="64dp"
+        android:layout_height="46dp"
         android:text="New Text3"
         android:id="@+id/meanitem"
         android:textSize="25dp"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_weight="0.79"
+        android:longClickable="true" />
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
-        android:layout_height="64dp"
-        android:text="刪除"
-        android:id="@+id/button_D" />
+        android:layout_height="47dp"
+        android:id="@+id/btndelete"
+        android:src="@drawable/trash"
+        android:background="#62ccb9b9"
+        android:layout_weight="0.34" />
 
 </LinearLayout>
