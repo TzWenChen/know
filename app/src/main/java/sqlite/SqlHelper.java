@@ -42,6 +42,7 @@ public class SqlHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
 //         刪除原有的表格
         db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.words);
         db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.meaning);
@@ -55,6 +56,7 @@ public class SqlHelper extends SQLiteOpenHelper {
 //        }else {
 //            onCreate(db);
 //        }
+
 
 
     }

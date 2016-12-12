@@ -243,7 +243,9 @@ public class tableDao {
         // 回傳結果
         return result;
     }
-    //    public List<sqlite.Words> topSomeWords(int max) {
+
+//    public List<sqlite.Words> topSomeWords(int max) {
+
 //        List<sqlite.Words> result = new ArrayList<>();
 //        System.out.println("going to query Some data");
 //        Cursor cursor;
@@ -271,6 +273,7 @@ public class tableDao {
         String query = "";
         if (max == 0) {
             query = "SELECT * FROM words ORDER BY w_id ASC limit 0,10";
+
         } else {
             query = "SELECT * FROM words ORDER BY w_id ASC limit " + max + ",10";
             //query = "SELECT * FROM words ORDER BY id ASC limit " + max + ",10"; //max+1~~max+1+10    21~30
@@ -326,8 +329,6 @@ public class tableDao {
        return result;
     }
 
-
-
 //    // 刪除參數指定編號的資料
 //    public boolean deleteWords(int id) {
 //        // 設定條件為編號，格式為「欄位名稱=資料」
@@ -349,7 +350,6 @@ public class tableDao {
 
         rootCv.put("r_id",addRoot.getR_id());
         rootCv.put("root",addRoot.getRoot());
-
 
         db.insert(root,null,rootCv);
     }

@@ -253,7 +253,6 @@ public class ShowWordActivity extends ActionBarActivity {
                         //取出同字根的單字放在rootWordResult
                         rootWordResult += RootResult.get(i).getWord() + "\n";
                         int rootWordId = RootResult.get(i).getW_id();
-
                         meaningReturnList = tabledao.getMeaningById(rootWordId);
                         for (int j = 0; j < meaningReturnList.size(); j++) {
                             meaningResult += meaningReturnList.get(j).getPart_of_speech() + " "
