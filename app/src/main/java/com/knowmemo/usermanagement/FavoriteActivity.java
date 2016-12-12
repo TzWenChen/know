@@ -1,15 +1,21 @@
 package com.knowmemo.usermanagement;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import sqlite.tableDao;
@@ -118,11 +124,61 @@ public class FavoriteActivity extends Activity {
                 itemView.ItemName.setText(name);
                 itemView.ItemInfo.setText(info);
                 itemView.ItemButton.setOnClickListener(new ItemButton_Click(position));
+                itemView.ItemInfo.setOnLongClickListener(new LongClick(position));
+
+
             }
 
             return convertView;
         }
+        class LongClick implements View.OnLongClickListener{
+            private int position;
+            tableDao tabledao;
 
+            LongClick(int pos) {
+                position = pos;
+
+            }
+            @Override
+            public boolean onLongClick(View view) {
+                final View item = LayoutInflater.from(FavoriteActivity.this).inflate(R.layout.edit_layout, null);
+                new AlertDialog.Builder(FavoriteActivity.this)
+                        .setTitle("請輸入:")
+                        .setView(item)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                EditText editText = (EditText) item.findViewById(R.id.editmeaning);
+                                String edittext = editText.getText().toString();
+                                if(edittext!=""){
+                                    HashMap<String, Object> appInfo = mAppList.get(position);
+                                    appInfo.put(keyString[1],edittext);
+                                    notifyDataSetChanged();
+
+//                                    Toast.makeText(getApplicationContext(),position, Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        })
+                        .show();
+                return true;
+
+            }
+
+        }
+
+//        private void showAlertDialogEdit(){
+////            tabledao = new tableDao(getApplicationContext());
+//
+//        }
+//        class ItemLong_Click {
+//            private int position;
+//
+//            ItemLong_Click(int pos) {
+//                position = pos;
+//
+//            }
+//        }
         class ItemButton_Click implements View.OnClickListener  {
             private int position;
             tableDao tabledao;
