@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,17 @@ public class FavoriteActivity extends Activity {
         setContentView(R.layout.activity_myfavorite);
         this.loadInit();
 
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            Intent myIntent = new Intent();
+            myIntent = new Intent(FavoriteActivity.this, MainChoiceActivity.class);
+            startActivity(myIntent);
+            this.finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
     private void loadInit() {
         tabledao = new tableDao(getApplicationContext());
@@ -167,18 +180,6 @@ public class FavoriteActivity extends Activity {
 
         }
 
-//        private void showAlertDialogEdit(){
-////            tabledao = new tableDao(getApplicationContext());
-//
-//        }
-//        class ItemLong_Click {
-//            private int position;
-//
-//            ItemLong_Click(int pos) {
-//                position = pos;
-//
-//            }
-//        }
         class ItemButton_Click implements View.OnClickListener  {
             private int position;
             tableDao tabledao;
@@ -203,7 +204,11 @@ public class FavoriteActivity extends Activity {
 
             }
 
+
+
+
         }
+
 
     }
 
