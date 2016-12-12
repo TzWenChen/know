@@ -16,16 +16,10 @@ public class AddWordsActivity {
 
     Words addWords;
     Words[] addWordsData;
-    int id = 0;
+    int w_id = 0;
     String word = "";
-    String phonetics = "";
-    int GEPTlow = 0;
-    int GEPTmiddle = 0;
-    int GEPTmiddlehigh = 0;
-    int GEPThigh = 0;
-    int TOEFL = 0;
-    int TOEIC = 0;
-    int IELTS = 0;
+    int r_id = 0;
+
 
     public Words[] readExcel() {
         String fileposition = "C:\\Users\\User\\wtlab\\Knowmemo\\knowMemo_newDB_words.xls";
@@ -35,20 +29,14 @@ public class AddWordsActivity {
             Sheet sheet = book.getSheet(0);
             int Cols = sheet.getColumns();
 
-            addWords = new Words(id,word,phonetics,GEPTlow,GEPTmiddle,GEPTmiddlehigh,GEPThigh,TOEFL,TOEIC,IELTS);;
+            addWords = new Words(w_id,word,r_id);;
 
             for (int i = 0; i < Cols; ++i) {
 
-                addWords.setId(Integer.parseInt(sheet.getCell(i, 0).getContents()));
+                addWords.setW_id(Integer.parseInt(sheet.getCell(i, 0).getContents()));
                 addWords.setWord(sheet.getCell(i, 1).getContents());
-                addWords.setPhonetics(sheet.getCell(i, 2).getContents());
-                addWords.setGEPTlow(Integer.parseInt(sheet.getCell(i, 3).getContents()));
-                addWords.setGEPTmiddle(Integer.parseInt(sheet.getCell(i, 4).getContents()));
-                addWords.setGEPTmiddlehigh(Integer.parseInt(sheet.getCell(i, 5).getContents()));
-                addWords.setGEPThigh(Integer.parseInt(sheet.getCell(i, 6).getContents()));
-                addWords.setTOEFL(Integer.parseInt(sheet.getCell(i, 7).getContents()));
-                addWords.setTOEIC(Integer.parseInt(sheet.getCell(i, 8).getContents()));
-                addWords.setIELTS(Integer.parseInt(sheet.getCell(i, 9).getContents()));
+                addWords.setR_id(Integer.parseInt(sheet.getCell(i, 2).getContents()));
+
                 addWordsData[i] = addWords;
 
             }
