@@ -22,29 +22,6 @@ import sqlite.tableDao;
 
 
 
-import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.knowmemo.usermanagement.ButtonTransparent;
-import com.knowmemo.usermanagement.R;
-
-import java.util.List;
-import java.util.Locale;
-
-import sqlite.Exp;
-import sqlite.Meaning;
-import sqlite.SqlHelper;
-import sqlite.Words;
-import sqlite.tableDao;
-
 public class ShowWordActivity extends ActionBarActivity {
 
     int count = 0;
@@ -120,7 +97,7 @@ public class ShowWordActivity extends ActionBarActivity {
         }
         //取10個單字加入levle1的箱子
         wordsReturnList = tabledao.top10Words(0);
-        //顯示單字
+        //顯示第一個單字
         wordsText.setText(wordsReturnList.get(count).getWord());
     }
 
@@ -136,8 +113,8 @@ public class ShowWordActivity extends ActionBarActivity {
                 //利用id去找該id的exp
                 expReturn = tabledao.getExpById(wordId);
                 int level = expReturn.getLevel();
-                int learnedTimes = expReturn.getLearned();
                 int levelCount = tabledao.getBoxCount(level + 1);
+                int learnedTimes = expReturn.getLearned();
 
                 //如果本來就在第五層，則level改成6後updateExp
                 if (level == 5) {
@@ -163,8 +140,8 @@ public class ShowWordActivity extends ActionBarActivity {
                     System.out.println("enter check");
                     int max = tabledao.getExpMaxWordId();
                     System.out.println(max);
-                    wordsReturnList = tabledao.top10Words(max);
-                    count = 0;
+                        wordsReturnList = tabledao.top10Words(max);
+                        count = 0;
                 }
                 setBoxCount();
                 wordsText.setText(wordsReturnList.get(count).getWord());
@@ -182,7 +159,7 @@ public class ShowWordActivity extends ActionBarActivity {
                 expReturn = tabledao.getExpById(wordId);
                 int level = expReturn.getLevel();
                 int learnedTimes = expReturn.getLearned();
-                int levelCount = tabledao.getBoxCount(level - 1);
+                    int levelCount = tabledao.getBoxCount(level - 1);
 
                 if (level == 1) {
                     int level1Count = tabledao.getBoxCount(1);
