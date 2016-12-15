@@ -35,12 +35,14 @@ public class SqlHelper extends SQLiteOpenHelper {
         db.execSQL(sqlite.tableDao.createMeaningTable);
         db.execSQL(sqlite.tableDao.createExpTable);
         db.execSQL(sqlite.tableDao.createCategoriesTable);
+        db.execSQL(sqlite.tableDao.createRootTable);
         db.execSQL(sqlite.tableDao.createFavoritesTable);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
 //         刪除原有的表格
         db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.words);
         db.execSQL("DROP TABLE IF EXISTS " + sqlite.tableDao.meaning);
@@ -54,6 +56,8 @@ public class SqlHelper extends SQLiteOpenHelper {
 //        }else {
 //            onCreate(db);
 //        }
+
+
 
     }
 
