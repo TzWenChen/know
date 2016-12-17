@@ -15,7 +15,7 @@ public class GameHomeActivity extends AppCompatActivity{
         setContentView(R.layout.activity_game_home);
 
         Button btn_single = (Button) findViewById(R.id.btn_single);
-        Button btn_multi = (Button) findViewById(R.id.btn_multi);
+        //Button btn_multi = (Button) findViewById(R.id.btn_multi);
         Button btn_rank = (Button) findViewById(R.id.btn_rank);
 
         btn_single.setOnClickListener(new Button.OnClickListener(){
@@ -27,14 +27,14 @@ public class GameHomeActivity extends AppCompatActivity{
 
         });
 
-        btn_multi.setOnClickListener(new Button.OnClickListener(){
+        /*btn_multi.setOnClickListener(new Button.OnClickListener(){
 
             public void onClick(View v) {
 
                 jumpToMultiHome();
             }
 
-        });
+        });*/
 
         btn_rank.setOnClickListener(new Button.OnClickListener(){
 
