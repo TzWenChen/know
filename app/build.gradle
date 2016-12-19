@@ -24,8 +24,6 @@ android {
 }
 
 dependencies {
-    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/org.apache.http.legacy.jar')
     testCompile 'junit:junit:4.12'
