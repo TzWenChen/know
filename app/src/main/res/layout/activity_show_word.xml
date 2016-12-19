@@ -147,11 +147,47 @@
                     android:textAlignment="center" />
             </LinearLayout>
 
-            <Spinner
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/showRoot"
-                android:layout_gravity="center_horizontal" />
+                android:layout_height="match_parent"
+                android:weightSum="1">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="顯示同字根字首單字"
+                    android:id="@+id/showRoot" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.78"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/showWord"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:clickable="true"
+                        android:textSize="20sp"
+                        android:textAlignment="center"
+                        android:gravity="left"
+                        android:layout_weight="0.40" />
+
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/showMeaning"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0.18"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20dp" />
+                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </FrameLayout>

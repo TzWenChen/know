@@ -31,6 +31,5 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile files('libs/jxl.jar')
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
-
-
+    compile files('libs/ZHConverter.jar')
 }

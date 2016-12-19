@@ -45,6 +45,7 @@
         <activity
             android:name="com.knowmemo.usermanagement.GameHomeActivity">
         </activity>
+
         <activity
             android:name="com.knowmemo.usermanagement.FavoriteActivity">
         </activity>

@@ -132,7 +132,7 @@ public class SearchByhandActivity extends Activity {
                         Toast toast4 = Toast.makeText(getApplicationContext(),"沒有搜尋結果", Toast.LENGTH_LONG);
                         toast4.show();
                     }else if(tabledao.getFavoritesbyWord(inputfind)){
-                        Toast toast3 = Toast.makeText(getApplicationContext(),"單字已新增過", Toast.LENGTH_LONG);
+                        Toast toast3 = Toast.makeText(getApplicationContext(),"無法加入!此單字已存在", Toast.LENGTH_LONG);
                         toast3.show();
                     }else{
 
@@ -141,6 +141,8 @@ public class SearchByhandActivity extends Activity {
                         Toast toast = Toast.makeText(getApplicationContext(),"已新增!", Toast.LENGTH_LONG);
                         toast.show();
 
+
+
                     }
 
                 }
@@ -148,17 +150,19 @@ public class SearchByhandActivity extends Activity {
 
         });
     }
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event)
-//    {
-//        if(keyCode == KeyEvent.KEYCODE_BACK){
-////            Intent myIntent = new Intent();
-////            myIntent = new Intent(SearchByhandActivity.this, MainChoiceActivity.class);
-////            startActivity(myIntent);
-//
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            Intent myIntent ;
+            myIntent = new Intent(SearchByhandActivity.this, MainChoiceActivity.class);
+            startActivity(myIntent);
+            this.finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 }
 
