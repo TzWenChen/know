@@ -155,7 +155,7 @@ public class SearchByhandActivity extends Activity {
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         if(keyCode == KeyEvent.KEYCODE_BACK){
-            Intent myIntent = new Intent();
+            Intent myIntent ;
             myIntent = new Intent(SearchByhandActivity.this, MainChoiceActivity.class);
             startActivity(myIntent);
             this.finish();

@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import sqlite.Meaning;
 import sqlite.tableDao;
 
 /**
@@ -56,8 +58,8 @@ public class FavoriteActivity extends Activity {
                 this,
                 favorReturnList,
                 R.layout.favoritem_layout,
-                new String[] {"單字","解釋", "按鈕"},
-                new int[] {R.id.worditem,R.id.meanitem,R.id.btndelete}
+                new String[] {"單字","解釋", "刪除按鈕","新增按鈕"},
+                new int[] {R.id.worditem,R.id.meanitem,R.id.btndelete,R.id.btnadd}
         );
         lv.setAdapter(Btnadapter);
     }
@@ -76,21 +78,24 @@ public class FavoriteActivity extends Activity {
         private ItemView itemView;
 
         private class ItemView {
-            TextView ItemName;
+            TextView ItemWord;
             TextView ItemInfo;
-            ImageButton ItemButton;
+            ImageButton ItemDeButton;
+            ImageButton ItemAddButton;
+
         }
 
         public FavorviewAdapter(Context c, ArrayList<HashMap<String, Object>> appList, int resource, String[] from, int[] to) {
             mAppList = appList;
             mContext = c;
-            mInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             keyString = new String[from.length];
             valueViewID = new int[to.length];
             System.arraycopy(from, 0, keyString, 0, from.length);
             System.arraycopy(to, 0, valueViewID, 0, to.length);
 
         }
+
         @Override
         public int getCount() {
 
@@ -123,9 +128,10 @@ public class FavoriteActivity extends Activity {
                 convertView = mInflater.inflate(R.layout.favoritem_layout, null);
                 itemView = new ItemView();
 
-                itemView.ItemName = (TextView)convertView.findViewById(valueViewID[0]);
-                itemView.ItemInfo = (TextView)convertView.findViewById(valueViewID[1]);
-                itemView.ItemButton = (ImageButton)convertView.findViewById(valueViewID[2]);
+                itemView.ItemWord = (TextView) convertView.findViewById(valueViewID[0]);
+                itemView.ItemInfo = (TextView) convertView.findViewById(valueViewID[1]);
+                itemView.ItemDeButton = (ImageButton) convertView.findViewById(valueViewID[2]);
+                itemView.ItemAddButton = (ImageButton) convertView.findViewById(valueViewID[3]);
                 convertView.setTag(itemView);
             }
 
@@ -133,10 +139,11 @@ public class FavoriteActivity extends Activity {
             if (appInfo != null) {
                 String name = (String) appInfo.get(keyString[0]);
                 String info = (String) appInfo.get(keyString[1]);
-                int bid = (Integer)appInfo.get(keyString[2]);
-                itemView.ItemName.setText(name);
+                int bid = (Integer) appInfo.get(keyString[2]);
+                itemView.ItemWord.setText(name);
                 itemView.ItemInfo.setText(info);
-                itemView.ItemButton.setOnClickListener(new ItemButton_Click(position));
+                itemView.ItemDeButton.setOnClickListener(new ItemDeButton_Click(position));
+                itemView.ItemAddButton.setOnClickListener(new ItemAddButton_Click(position));
                 itemView.ItemInfo.setOnLongClickListener(new LongClick(position));
 
 
@@ -144,7 +151,8 @@ public class FavoriteActivity extends Activity {
 
             return convertView;
         }
-        class LongClick implements View.OnLongClickListener{
+
+        class LongClick implements View.OnLongClickListener {
             private int position;
             tableDao tabledao;
 
@@ -152,6 +160,7 @@ public class FavoriteActivity extends Activity {
                 position = pos;
 
             }
+
             @Override
             public boolean onLongClick(View view) {
                 final View item = LayoutInflater.from(FavoriteActivity.this).inflate(R.layout.edit_layout, null);
@@ -163,12 +172,11 @@ public class FavoriteActivity extends Activity {
                             public void onClick(DialogInterface dialog, int which) {
                                 EditText editText = (EditText) item.findViewById(R.id.editmeaning);
                                 String edittext = editText.getText().toString();
-                                if(edittext!=""){
+                                if (edittext != "") {
                                     HashMap<String, Object> appInfo = mAppList.get(position);
-                                    appInfo.put(keyString[1],edittext);
+                                    appInfo.put(keyString[1], edittext);
                                     notifyDataSetChanged();
 
-//                                    Toast.makeText(getApplicationContext(),position, Toast.LENGTH_SHORT).show();
                                 }
 
                             }
@@ -180,11 +188,11 @@ public class FavoriteActivity extends Activity {
 
         }
 
-        class ItemButton_Click implements View.OnClickListener  {
+        class ItemDeButton_Click implements View.OnClickListener {
             private int position;
             tableDao tabledao;
 
-            ItemButton_Click(int pos) {
+            ItemDeButton_Click(int pos) {
                 position = pos;
 
             }
@@ -200,16 +208,44 @@ public class FavoriteActivity extends Activity {
                 notifyDataSetChanged();
 
 
-
-
             }
-
-
-
 
         }
 
+        class ItemAddButton_Click implements View.OnClickListener {
+            private int position;
+            tableDao tabledao;
 
+            ItemAddButton_Click(int pos) {
+                position = pos;
+
+            }
+
+            @Override
+            public void onClick(View v) {
+                tabledao = new tableDao(getApplicationContext());
+                HashMap<String, Object> appInfo = mAppList.get(position);
+                String name = (String) appInfo.get(keyString[0]);
+                String info = (String) appInfo.get(keyString[1]);
+                System.out.println(name);
+
+
+                if( tabledao.getWordsByWord(name) ==false) {
+                    sqlite.Words wordsAdd = new sqlite.Words(tabledao.getWordsCount() + 1, name, 0);
+                    tabledao.insertWords(wordsAdd);
+                    Meaning meaningAdd = new Meaning(tabledao.getMeaningCount() + 1, tabledao.getMeaningwordCount() + 1, "", info);
+                    tabledao.insertMeaning(meaningAdd);
+                    String temp = Integer.toString(tabledao.getWordsCount());
+                    Toast toast = Toast.makeText(getApplicationContext(), temp, Toast.LENGTH_LONG);
+                    toast.show();
+                }else{
+                    Toast toast3 = Toast.makeText(getApplicationContext(),"無法加入!因單字已存在學習卡片箱", Toast.LENGTH_LONG);
+                    toast3.show();
+                }
+
+            }
+
+        }
     }
 
 

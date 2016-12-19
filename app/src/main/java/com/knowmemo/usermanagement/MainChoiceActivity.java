@@ -9,8 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainChoiceActivity extends AppCompatActivity {
+import sqlite.tableDao;
 
+public class MainChoiceActivity extends AppCompatActivity {
+    tableDao tabledao;
     private long lastBackTime = 0;
     //当前按下返回键的系统时间
     private long currentBackTime = 0;
@@ -19,11 +21,13 @@ public class MainChoiceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_choice);
 
+
         Button learn_word = (Button) findViewById(R.id.button_learnWord);
         Button search_word = (Button) findViewById(R.id.button_searchWord);
         Button game_test = (Button) findViewById(R.id.button_gameTest);
         Button setting_time = (Button) findViewById(R.id.button_settingTime);
         Button favor= (Button) findViewById(R.id.button_favor);
+
 
         search_word.setOnClickListener(new Button.OnClickListener(){
 
@@ -78,6 +82,7 @@ public class MainChoiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_word);
         //Button l= (Button)findViewById(R.id.Button02);
         Intent intent = new Intent(MainChoiceActivity.this, wordsCard.ShowWordActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
 
     }
@@ -111,8 +116,22 @@ public class MainChoiceActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            Intent intentHome = new Intent(Intent.ACTION_MAIN);
+            intentHome.addCategory(Intent.CATEGORY_HOME);
+            intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intentHome);
+
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 }
-
 
 

@@ -56,7 +56,7 @@ public class ShowWordActivity extends ActionBarActivity {
     Button showRoot;
     TextView showWord;
     TextView showMeaning;
-
+    boolean flaghaveword = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -72,8 +72,7 @@ public class ShowWordActivity extends ActionBarActivity {
 
     //初始化所有的框架
     private void layoutInit() {
-//        toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+
         wordsText = (TextView) findViewById(R.id.wordsText);
         meaningText = (TextView) findViewById(R.id.meaningText);
         level1 = (TextView) findViewById(R.id.level1);
@@ -124,6 +123,16 @@ public class ShowWordActivity extends ActionBarActivity {
         rememberBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                int expCount = tabledao.getExpCount();
+                System.out.println("flaghaveword ="+flaghaveword);
+                if((flaghaveword==false)&(tabledao.getWordsCount()> expCount)){
+                    wordsReturnList=tabledao.top10Words(expCount);
+                    count = 0 ;
+                    flaghaveword =true;
+
+                }
                 //取得目前單字的id
                 int wordId = wordsReturnList.get(count).getW_id();
                 //利用id去找該id的exp
@@ -156,15 +165,36 @@ public class ShowWordActivity extends ActionBarActivity {
                     System.out.println("enter check");
                     int max = tabledao.getExpMaxWordId();
                     System.out.println(max);
-                    wordsReturnList = tabledao.top10Words(max);
-                    count = 0;
+
+                    if (tabledao.getBoxCount(1) == 0) {
+
+                        if(tabledao.have10Word(max)){  //判斷word裡是否還有單字
+
+                            System.out.println("nothave10="+tabledao.have10Word(max));
+                            flaghaveword = false;
+                            ConfirmExit();
+                        }
+                        else {
+                            wordsReturnList = tabledao.top10Words(max);
+                            count = 0;
+                        }
+
+                    }else {
+                        expReturnList = tabledao.boxLevelData(1);
+                        wordsReturnList = tabledao.getWordsById(expReturnList);
+                        count = 0;
+                    }
                 }
-                setBoxCount();
-                wordsText.setText(wordsReturnList.get(count).getWord());
-                System.out.println(tabledao.getExpCount());
-                meaningText.setText("點擊以顯示解釋");
-                showWord.setText("");
-                showMeaning.setText("");
+
+                if(((flaghaveword)!= false)) {
+                    setBoxCount();
+                    wordsText.setText(wordsReturnList.get(count).getWord());
+                    System.out.println(tabledao.getExpCount());
+                    meaningText.setText("點擊以顯示解釋");
+                    showWord.setText("");
+                    showMeaning.setText("");
+                }
+
 
             }
         });
@@ -319,26 +349,13 @@ public class ShowWordActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-//        switch(id) {
-//            case 0:
-//                //切換到新增單字頁面
-//                Intent intent = new Intent(ShowWordActivity.this, AddWordsActivity.class);
-//                startActivity(intent);
-//                break;
-//            case 1:
-//                //結束此程式
-//                finish();
-//                break;
-//            default:
-//        }
+
         return super.onOptionsItemSelected(item);
     }
 
     //按下返回鍵
     public boolean onKeyDown(int keyCode, KeyEvent event) {//捕捉返回鍵
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            moveTaskToBack(true);
-            setContentView(R.layout.activity_main_choice);
             Intent intent = new Intent(wordsCard.ShowWordActivity.this, com.knowmemo.usermanagement.MainChoiceActivity.class);
             startActivity(intent);
             //ConfirmExit();//按返回鍵，則執行退出確認
@@ -346,24 +363,22 @@ public class ShowWordActivity extends ActionBarActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-    /*public void ConfirmExit(){//退出確認
-        AlertDialog.Builder ad=new AlertDialog.Builder(wordsCard.ShowWordActivity.this);
-        ad.setTitle("離開");
-        ad.setMessage("確定要離開?");
-        ad.setPositiveButton("是", new DialogInterface.OnClickListener() {//退出按鈕
+    public void ConfirmExit(){//退出確認
+        AlertDialog.Builder ad=new AlertDialog.Builder(this);
+        ad.setTitle("學習完");
+        ad.setMessage("若要繼續學習請新增單字! 將離開此畫面...");
+        ad.setPositiveButton("離開", new DialogInterface.OnClickListener() {//退出按鈕
             public void onClick(DialogInterface dialog, int i) {
-                // TODO Auto-generated method stub
-                this.finish();//關閉activity
 
-            }
-        });
-        ad.setNegativeButton("否",new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int i) {
-                setContentView(R.layout.activity_main_choice);
                 Intent intent = new Intent(wordsCard.ShowWordActivity.this, com.knowmemo.usermanagement.MainChoiceActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("flag",flaghaveword);
+                //將Bundle物件assign給intent
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
         ad.show();//示對話框
-    }*/
+    }
+
 }
