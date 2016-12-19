@@ -3,12 +3,11 @@
     package="com.knowmemo.usermanagement">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
     <application
         android:name="com.knowmemo.usermanagement.global"
         android:allowBackup="true"
         android:icon="@mipmap/master_logo"
-        android:label="ezEnglish"
+        android:label="KnowMemo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -39,7 +38,10 @@
         <activity
             android:name="com.knowmemo.usermanagement.SearchByhandActivity">
         </activity>
-        <activity
+		<activity
+			android:name="com.knowmemo.usermanagement.SettingTimeActivity">
+		</activity>
+		<activity
 			android:name="com.knowmemo.usermanagement.RemindActivity">
 		</activity>
         <activity
@@ -62,19 +64,6 @@
         </activity>
         <activity
             android:name="com.knowmemo.usermanagement.MultiConnectActivity">
-        </activity>
-        <receiver
-            android:name="com.knowmemo.usermanagement.Alarmreceiver">
-            <intent-filter>
-                <action android:name="com.knowmemo.alarm.clock"/>
-            </intent-filter>
-        </receiver>>
-        <activity
-            android:name="com.knowmemo.usermanagement.AlarmActivity">
-        </activity>
-        <activity
-            android:name="com.knowmemo.usermanagement.ClockAlarmActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
                          App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->

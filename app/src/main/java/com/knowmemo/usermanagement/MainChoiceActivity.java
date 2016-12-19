@@ -103,8 +103,8 @@ public class MainChoiceActivity extends AppCompatActivity {
 
     public void jumpToSettingTime(){
 
-        setContentView(R.layout.activity_alarm);
-        Intent intent = new Intent(MainChoiceActivity.this, AlarmActivity.class);
+        setContentView(R.layout.activity_setting_time);
+        Intent intent = new Intent(MainChoiceActivity.this, SettingTimeActivity.class);
         startActivity(intent);
 
     }
