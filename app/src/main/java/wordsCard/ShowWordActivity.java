@@ -19,7 +19,6 @@ import com.knowmemo.usermanagement.ButtonTransparent;
 import com.knowmemo.usermanagement.MainActivity;
 import com.knowmemo.usermanagement.MainChoiceActivity;
 import com.knowmemo.usermanagement.R;
-import com.knowmemo.usermanagement.SettingTimeActivity;
 
 import java.util.List;
 import java.util.Locale;

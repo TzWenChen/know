@@ -92,16 +92,16 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
             String[] times = time.split(":");
             if (cycle == 0) {//是每天的鬧鐘
                 RemindActivity.setAlarm(this, 0, Integer.parseInt(times[0]), Integer.parseInt
-                        (times[1]), 0, 0, "鬧鐘響了", ring);
+                        (times[1]), 0, 0, "該學習囉", ring);
             } if(cycle == -1){//是只響一次的鬧鐘
                 RemindActivity.setAlarm(this, 1, Integer.parseInt(times[0]), Integer.parseInt
-                        (times[1]), 0, 0, "鬧鐘響了", ring);
+                        (times[1]), 0, 0, "該學習囉", ring);
             }else {//多選，周幾的鬧鐘
                 String weeksStr = parseRepeat(cycle, 1);
                 String[] weeks = weeksStr.split(",");
                 for (int i = 0; i < weeks.length; i++) {
                     RemindActivity.setAlarm(this, 2, Integer.parseInt(times[0]), Integer
-                            .parseInt(times[1]), i, Integer.parseInt(weeks[i]), "鬧鐘響了", ring);
+                            .parseInt(times[1]), i, Integer.parseInt(weeks[i]), "該學習囉", ring);
                 }
             }
             Toast.makeText(this, "鬧鐘設置成功", Toast.LENGTH_LONG).show();
