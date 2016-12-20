@@ -24,6 +24,7 @@ public class tableDao {
     public static final String categories = "categories";
     public static final String root = "root";
     public static final String favorites = "favorites";
+    public static final String game_question = "game_question";
     public static int box_level_1_Limit = 10;
     public static int box_level_2_Limit = 20;
     public static int box_level_3_Limit = 40;
@@ -65,6 +66,11 @@ public class tableDao {
             + " (favor_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "favor_word VARCHAR(20) NOT NULL,"
             + "favor_meaning VARCHAR(20) NOT NULL)";
+
+    public static final String createGameQuestion = "CREATE TABLE IF NOT EXISTS " + game_question
+            + " (question_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "question VARCHAR(100) NOT NULL,"
+            + "answer_id INTEGER(3))";
 
 
     // 建構子，一般的應用都不需要修改
@@ -633,6 +639,23 @@ public class tableDao {
 
         // 執行修改資料並回傳修改的資料數量是否成功
         db.update(exp, cv, where, null);
+    }
+
+    // 新增GameQuestion物件
+    public void insertQuestions(sqlite.GameQuestion addQuestions) {
+        // 建立準備新增資料的ContentValues物件
+        ContentValues cv = new ContentValues();
+
+        // 加入ContentValues物件包裝的新增資料
+        // 第一個參數是欄位名稱， 第二個參數是欄位的資料
+        cv.put("quesion_id", addQuestions.getQuestion_id());
+        cv.put("question", addQuestions.getQuestion());
+        cv.put("answer_id", addQuestions.getAnswer_id());
+
+        // 第一個參數是表格名稱
+        // 第二個參數是沒有指定欄位值的預設值
+        // 第三個參數是包裝新增資料的ContentValues物件
+        db.insert(game_question, null, cv);
     }
 
     public void sampleWord() {
@@ -1317,7 +1340,48 @@ public class tableDao {
                 insertMeaning(meaningAdd);
 
         }
+    }
 
+    public void sampleQuestion() {
+        String data = "1,This price of equipment does not _____ to the official safety standards.,1\n" +
+                "2,John was _____ to each friend with money.,2\n" +
+                "3,How about a back rub to _____ some of your stress?,3\n" +
+                "4,A highly _____ artistic, cinematic, or dramatic work always touches people.,4\n" +
+                "5,They  sold the  furniture  by _____.,5\n" +
+                "6,We _____ your insistence that the debt (should) be paid at once.,6\n" +
+                "7,They often _____ us to work twelve or fourteen hours a day.,7\n" +
+                "8,The pill will _____ you from pain.,8\n" +
+                "9,The police absolved the _____.,9\n" +
+                "10,That dog has got a serious case of _____.,10\n" +
+                "11,He _____ed the importance of the event.,11\n" +
+                "12,Measure the _____ of this circle.,12\n" +
+                "13,His hair is beginning to _____ from his forehead.,13\n" +
+                "14,I won't have him _____ing to me.,14\n" +
+                "15,He was _____ed to the position of president.,15\n" +
+                "16,They _____ed those ships.,16\n" +
+                "17,Please _____ your opinion about this topic.,17\n" +
+                "18,You seem to _____ her explanation.,18\n" +
+                "19,\"Sad\" and \"unhappy\" are _____s.,19\n" +
+                "20,The teacher _____s Arabic words into English letters.,20\n" +
+                "21,The whole essay is consisted of six parts , including introduction and _____.,21\n" +
+                "22,Chairman of the committee was _____ed by ballot.,22\n" +
+                "23,The kite is a tetragon with one line of _____. ,23\n" +
+                "24,The fish stayed _____ in water when sleeping.,24\n" +
+                "25,Morris ignored the question and continued his _____.,25\n" +
+                "26,He passed his German _____ exam.,26\n" +
+                "27,The facts _____ his theory.,27\n" +
+                "28,There is ample reason to believe that the man is _____.,28\n" +
+                "29,We felt quite _____ to resist the will of the dictator.,29\n" +
+                "30,Professor Smith is recognized to be one of the great scholars in English _____.,30\n";
+
+        String[] dataArray = data.split("\n");
+        for (int i = 0; i < dataArray.length; i++) {
+            String[] questionsArray = dataArray[i].split(",");
+            int question_id = Integer.parseInt(questionsArray[0]);
+            int answer_id = Integer.parseInt(questionsArray[2]);
+            GameQuestion questionAdd = new GameQuestion(question_id, questionsArray[1], answer_id);
+            insertQuestions(questionAdd);
+        }
     }
 
 
