@@ -1346,7 +1346,7 @@ public class tableDao {
         String data = "1,This price of equipment does not _____ to the official safety standards.,1\n" +
                 "2,John was _____ to each friend with money.,2\n" +
                 "3,How about a back rub to _____ some of your stress?,3\n" +
-                "4,A highly _____ artistic, cinematic, or dramatic work always touches people.,4\n" +
+                "4,A highly _____ artistic， cinematic， or dramatic work always touches people.,4\n" +
                 "5,They  sold the  furniture  by _____.,5\n" +
                 "6,We _____ your insistence that the debt (should) be paid at once.,6\n" +
                 "7,They often _____ us to work twelve or fourteen hours a day.,7\n" +
@@ -1363,7 +1363,7 @@ public class tableDao {
                 "18,You seem to _____ her explanation.,18\n" +
                 "19,\"Sad\" and \"unhappy\" are _____s.,19\n" +
                 "20,The teacher _____s Arabic words into English letters.,20\n" +
-                "21,The whole essay is consisted of six parts , including introduction and _____.,21\n" +
+                "21,The whole essay is consisted of six parts， including introduction and _____.,21\n" +
                 "22,Chairman of the committee was _____ed by ballot.,22\n" +
                 "23,The kite is a tetragon with one line of _____. ,23\n" +
                 "24,The fish stayed _____ in water when sleeping.,24\n" +
