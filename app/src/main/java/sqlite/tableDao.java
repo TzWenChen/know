@@ -648,7 +648,7 @@ public class tableDao {
 
         // 加入ContentValues物件包裝的新增資料
         // 第一個參數是欄位名稱， 第二個參數是欄位的資料
-        cv.put("quesion_id", addQuestions.getQuestion_id());
+        cv.put("question_id", addQuestions.getQuestion_id());
         cv.put("question", addQuestions.getQuestion());
         cv.put("answer_id", addQuestions.getAnswer_id());
 
