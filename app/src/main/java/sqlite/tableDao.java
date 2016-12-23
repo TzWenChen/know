@@ -251,6 +251,19 @@ public class tableDao {
         return result;
     }
 
+    //for game answers
+    public Words getWordById(int w_id) {
+        Words word = null;
+        String where = "w_id=" + w_id;
+        Cursor cursor = db.query(
+                words, null, where, null, null, null, null, null);
+        if(cursor.moveToFirst()) {
+            word = getWordsRecord(cursor);
+        }
+        cursor.close();
+        return word;
+    }
+
 
     public boolean have10Word(int max) {
         boolean flag = false;
