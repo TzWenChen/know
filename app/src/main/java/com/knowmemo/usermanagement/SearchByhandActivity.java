@@ -33,7 +33,7 @@ public class SearchByhandActivity extends Activity {
     int countCursor = 0 ;
     tableDao tabledao;
     String inputfind = "";
-    String resaultID = "";
+    String Interpret = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -74,17 +74,18 @@ public class SearchByhandActivity extends Activity {
 
                                 countCursor++;
                                 if(countCursor!=1){
-                                    resaultID="";
+                                    Interpret = "";
                                 }
                                A: for (int i=0;i<3;i++)
-                                {   JSONArray jsonarray =new JSONArray(new JSONObject(mJsonText).getString("tuc"));
+                                {
+                                    JSONArray jsonarray =new JSONArray(new JSONObject(mJsonText).getString("tuc"));
                                     if(jsonarray.length()!=0){
-                                        String ID =new JSONObject( jsonarray.getJSONObject(i).getString("phrase")).getString("text");
+                                        String JsonString =new JSONObject( jsonarray.getJSONObject(i).getString("phrase")).getString("text");
 
                                         if( i==2){
-                                            resaultID+=ID;
+                                            Interpret+=JsonString;
                                         }else{
-                                            resaultID+=ID+"、";
+                                            Interpret+=JsonString+"、";
                                         }
                                     }
                                     else{
@@ -92,10 +93,10 @@ public class SearchByhandActivity extends Activity {
                                     }
 
                                 }
-                                if(resaultID!=""){
+                                if(Interpret!=""){
                                     ZHConverter converter = ZHConverter.getInstance(ZHConverter.SIMPLIFIED);
-                                    String zhResault = converter.convert(resaultID, ZHConverter.TRADITIONAL);
-                                    resaultID=zhResault;
+                                    String zhResault = converter.convert(Interpret, ZHConverter.TRADITIONAL);
+                                    Interpret = zhResault;
                                     output.setText("中文解釋：\n"+ zhResault);
                                 }else{
                                     output.setText(" NOT found");
@@ -125,10 +126,10 @@ public class SearchByhandActivity extends Activity {
 
                 if (tabledao.getFavorsCount() == 0){
 
-                    tabledao.insertFavorites(inputfind, resaultID);
+                    tabledao.insertFavorites(inputfind, Interpret);
                 }else
                 {
-                    if(resaultID==""){
+                    if(Interpret == ""){
                         Toast toast4 = Toast.makeText(getApplicationContext(),"沒有搜尋結果", Toast.LENGTH_LONG);
                         toast4.show();
                     }else if(tabledao.getFavoritesbyWord(inputfind)){
@@ -136,7 +137,7 @@ public class SearchByhandActivity extends Activity {
                         toast3.show();
                     }else{
 
-                        tabledao.insertFavorites(inputfind, resaultID);
+                        tabledao.insertFavorites(inputfind, Interpret);
 
                         Toast toast = Toast.makeText(getApplicationContext(),"已新增!", Toast.LENGTH_LONG);
                         toast.show();
