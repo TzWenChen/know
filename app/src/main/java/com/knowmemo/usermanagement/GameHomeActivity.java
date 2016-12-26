@@ -78,5 +78,7 @@ public class GameHomeActivity extends AppCompatActivity{
     public void jumpToRank(){
 
         setContentView(R.layout.single_rank);
+        Intent intent = new Intent(GameHomeActivity.this, SingleRankActivity.class);
+        startActivity(intent);
     }
 }
