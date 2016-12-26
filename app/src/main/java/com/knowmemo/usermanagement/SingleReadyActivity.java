@@ -3,6 +3,7 @@ package com.knowmemo.usermanagement;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -22,6 +23,18 @@ public class SingleReadyActivity extends AppCompatActivity{
             }
 
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            Intent myIntent = new Intent();
+            myIntent = new Intent(SingleReadyActivity.this, GameHomeActivity.class);
+            startActivity(myIntent);
+            this.finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public void jumpToSingleTest(){
