@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -32,6 +33,18 @@ public class SingleTestActivity extends AppCompatActivity{
 
         this.layoutInit();
         timeCountDown();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            Intent myIntent = new Intent();
+            myIntent = new Intent(SingleTestActivity.this, GameHomeActivity.class);
+            startActivity(myIntent);
+            this.finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void layoutInit() {
