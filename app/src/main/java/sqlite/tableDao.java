@@ -25,6 +25,7 @@ public class tableDao {
     public static final String root = "root";
     public static final String favorites = "favorites";
     public static final String game_question = "game_question";
+    public static final String game_record = "game_record";
     public static int box_level_1_Limit = 10;
     public static int box_level_2_Limit = 20;
     public static int box_level_3_Limit = 40;
@@ -71,6 +72,11 @@ public class tableDao {
             + " (question_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "question VARCHAR(100) NOT NULL,"
             + "answer_id INTEGER(3))";
+
+    public static final String createGameRocord = "CREATE TABLE IF NOT EXISTS " + game_record
+            + " (number INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "record INTEGER(3),"
+            + "time DATETIME DEFAULT CURRENT_DATE";
 
 
     // 建構子，一般的應用都不需要修改
