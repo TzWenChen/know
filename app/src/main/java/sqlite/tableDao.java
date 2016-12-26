@@ -671,6 +671,42 @@ public class tableDao {
         db.insert(game_question, null, cv);
     }
 
+    //以id取得一筆GameQuestion資料
+    public GameQuestion getQuestionById(int q_id) {
+        GameQuestion question = null;
+        String where = "question_id=" + q_id;
+        Cursor cursor = db.query(
+                game_question, null, where, null, null, null, null, null);
+        if(cursor.moveToFirst()) {
+            question = getQuestionRecord(cursor);
+        }
+        cursor.close();
+        return question;
+    }
+
+    // 把Cursor目前的資料包裝為GameQuestion物件
+    public GameQuestion getQuestionRecord(Cursor cursor) {
+        // 準備回傳結果用的物件
+        GameQuestion result = new GameQuestion();
+
+        result.setQuestion_id(cursor.getInt(0));
+        result.setQuestion(cursor.getString(1));
+        result.setAnswer_id(cursor.getInt(2));
+
+        // 回傳結果
+        return result;
+    }
+
+    public int getGameQuestionCount() {
+        int result = 0;
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + game_question, null);
+
+        if (cursor.moveToNext()) {
+            result = cursor.getInt(0);
+        }
+        return result;
+    }
+
     public void sampleWord() {
         String data = "1,conform,27\n" +
                 "2,generous,29\n" +
