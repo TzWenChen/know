@@ -23,7 +23,7 @@ import java.util.Random;
 public class SingleTestActivity extends AppCompatActivity{
     tableDao tabledao;
     GameQuestion currentQ = null;
-    int correct = 0;
+    protected int correct = 0;
     TextView question;
     TextView timer;
     TextView record;
@@ -58,7 +58,7 @@ public class SingleTestActivity extends AppCompatActivity{
         return super.onKeyDown(keyCode, event);
     }
 
-    private void layoutInit() {
+    protected void layoutInit() {
         question = (TextView) findViewById(R.id.single_question);
         timer = (TextView) findViewById(R.id.single_test_timer);
         record = (TextView) findViewById(R.id.right_answer);
@@ -69,7 +69,7 @@ public class SingleTestActivity extends AppCompatActivity{
         btn_skip = (Button) findViewById(R.id.btn_single_skip);
     }
 
-    private void databaseInit() {
+    protected void databaseInit() {
         tabledao = new tableDao(getApplicationContext());
         if (tabledao.getWordsCount() == 0) {
             tabledao.sampleWord();
@@ -79,7 +79,7 @@ public class SingleTestActivity extends AppCompatActivity{
         }
     }
 
-    private void listenerInit() {
+    protected void listenerInit() {
         btn_skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,7 +136,7 @@ public class SingleTestActivity extends AppCompatActivity{
         }.start();
     }
 
-    public void insertQuestion() {
+    protected void insertQuestion() {
         int questionCnt = tabledao.getGameQuestionCount();
         long seed = System.nanoTime();
         Random random = new Random(seed);
@@ -145,7 +145,7 @@ public class SingleTestActivity extends AppCompatActivity{
         question.setText(currentQ.getQuestion());
     }
 
-    public void insertAnswer() {
+    protected void insertAnswer() {
         String[] answerList = new String[4];
         //初始化答案陣列
         for (int i = 0; i < answerList.length; i++) {
@@ -189,7 +189,7 @@ public class SingleTestActivity extends AppCompatActivity{
         return otherAnswerList;
     }
 
-    private boolean checkAnswer(String chosenAnswer) {
+    protected boolean checkAnswer(String chosenAnswer) {
         boolean isCorrect = false;
         String rightAnswer = tabledao.getWordById(currentQ.getAnswer_id()).getWord().toString();
         if (chosenAnswer != null && chosenAnswer.toLowerCase().equals(rightAnswer)) {
@@ -200,7 +200,7 @@ public class SingleTestActivity extends AppCompatActivity{
         return isCorrect;
     }
 
-    private void btnClick(String btnText) {
+    protected void btnClick(String btnText) {
         if (checkAnswer(btnText.toLowerCase())) {
             correct++;
             record.setText(correct + "");
