@@ -16,16 +16,25 @@ import sqlite.GameQuestion;
 import sqlite.tableDao;
 
 public class SingleEndGameActivity extends AppCompatActivity{
+    Button btn_check;
+    TextView grade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_end_game);
 
-        Button btn_check = (Button) findViewById(R.id.btn_check);
-        TextView grade = (TextView) findViewById(R.id.text_grade);
+        btn_check = (Button) findViewById(R.id.btn_check);
+        grade = (TextView) findViewById(R.id.text_grade);
 
-        //grade.setText(super.correct + "");
+        insertGrade();
+        btn_check.setOnClickListener(new Button.OnClickListener(){
+
+            public void onClick(View v) {
+                jumpToRank();
+            }
+
+        });
     }
 
     @Override
@@ -40,5 +49,15 @@ public class SingleEndGameActivity extends AppCompatActivity{
         return super.onKeyDown(keyCode, event);
     }
 
+    private void jumpToRank() {
+        setContentView(R.layout.single_rank);
+        Intent intent = new Intent(SingleEndGameActivity.this, SingleRankActivity.class);
+        startActivity(intent);
+    }
 
+    private void insertGrade() {
+        tableDao tabledao = new tableDao(getApplicationContext());
+        int record = tabledao.getLastGameRecord().getRecord();
+        grade.setText(record + "");
+    }
 }
