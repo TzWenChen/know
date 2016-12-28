@@ -17,6 +17,8 @@ import sqlite.GameQuestion;
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -214,5 +216,13 @@ public class SingleTestActivity extends AppCompatActivity{
             insertQuestion();
             insertAnswer();
         }
+    }
+
+    private void insertRecord() {
+        int r_id = tabledao.getGameRecordCount() + 1;
+        int record = correct;
+        String time = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+        sqlite.GameRecord addRecord = new sqlite.GameRecord(r_id, record, time);
+        tabledao.insertGameRecord(addRecord);
     }
 }
