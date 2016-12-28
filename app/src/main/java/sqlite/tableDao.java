@@ -732,9 +732,31 @@ public class tableDao {
     }
 
     //取得前10名的遊戲紀錄
-    /*public List<GameRecord> getTop10GameRecord() {
-
-    }*/
+    public ArrayList<HashMap<String,Object >> getTop10GameRecord() {
+        Cursor cursor = null;
+        ArrayList<HashMap<String, Object>> result = new ArrayList<HashMap<String,Object>>();
+        // 執行查詢
+        String query;
+        if (getGameRecordCount() == 0) {
+            query = "SELECT * FROM `game_record` ORDER BY record DESC LIMIT " + getGameRecordCount();
+        } else {
+            query = "SELECT * FROM `game_record` ORDER BY record DESC LIMIT 10";
+        }
+        cursor = db.rawQuery(query, null);
+        int i = 1;
+        while (cursor.moveToNext()) {
+            HashMap<String, Object> item = new HashMap<String, Object>();
+            item.put("排名", i + "");
+            item.put("答題數", cursor.getInt(1) + "");
+            item.put("日期", cursor.getString(2));
+            result.add(item);
+            i++;
+        }
+        // 關閉Cursor物件
+        cursor.close();
+        // 回傳結果
+        return result;
+    }
 
     // 把Cursor目前的資料包裝為GameQuestion物件
     public GameRecord getRecordRecord(Cursor cursor) {
