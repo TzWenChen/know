@@ -132,7 +132,11 @@ public class SingleTestActivity extends AppCompatActivity{
 
             @Override
             public void onFinish() {
-
+                insertRecord();
+                finish();
+                setContentView(R.layout.single_end_game);
+                Intent intent = new Intent(SingleTestActivity.this, SingleEndGameActivity.class);
+                startActivity(intent);
             }
 
             @Override
