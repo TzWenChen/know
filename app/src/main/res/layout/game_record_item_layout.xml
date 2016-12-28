@@ -9,26 +9,23 @@
         android:layout_height="35dp"
         android:text="number"
         android:id="@+id/col_num"
-        android:textSize="25dp"
-        android:textColor="@color/abc_background_cache_hint_selector_material_dark" />
+        android:textSize="21dp"
+        android:layout_marginLeft="60dp" />
 
     <TextView
-        android:layout_width="128dp"
+        android:layout_width="90dp"
         android:layout_height="35dp"
         android:text="grade"
         android:id="@+id/col_grade"
-        android:textSize="25dp"
-        android:layout_marginLeft="10dp"
-        android:longClickable="true"
-        android:textColor="@color/abc_background_cache_hint_selector_material_dark" />
+        android:textSize="21dp"
+        android:layout_marginLeft="100dp"
+        android:longClickable="true" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="date"
         android:id="@+id/col_date"
-        android:textColor="@color/abc_background_cache_hint_selector_material_dark"
-        android:textSize="25dp" />
+        android:textSize="21dp" />
 
 </LinearLayout>
