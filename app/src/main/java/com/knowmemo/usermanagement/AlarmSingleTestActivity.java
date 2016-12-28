@@ -12,6 +12,11 @@ public class AlarmSingleTestActivity extends SingleTestActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_test);
 
+        create();
+    }
+
+    @Override
+    protected void create() {
         super.layoutInit();
         super.databaseInit();
         super.listenerInit();
@@ -19,6 +24,7 @@ public class AlarmSingleTestActivity extends SingleTestActivity{
         super.insertAnswer();
         timer.setVisibility(View.INVISIBLE);
     }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
