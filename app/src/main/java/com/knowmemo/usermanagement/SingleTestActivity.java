@@ -38,6 +38,10 @@ public class SingleTestActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_test);
 
+        create();
+    }
+
+    protected void create() {
         this.layoutInit();
         this.databaseInit();
         this.timeCountDown();
