@@ -128,7 +128,7 @@ public class SingleTestActivity extends AppCompatActivity{
     }
 
     private void timeCountDown() {
-        new CountDownTimer(30000,1000){
+        new CountDownTimer(200000,1000){
 
             @Override
             public void onFinish() {
