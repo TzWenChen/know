@@ -37,7 +37,8 @@ public class SqlHelper extends SQLiteOpenHelper {
         db.execSQL(sqlite.tableDao.createCategoriesTable);
         db.execSQL(sqlite.tableDao.createRootTable);
         db.execSQL(sqlite.tableDao.createFavoritesTable);
-
+        db.execSQL(sqlite.tableDao.createGameQuestion);
+        db.execSQL(sqlite.tableDao.createGameRocord);
     }
 
     @Override

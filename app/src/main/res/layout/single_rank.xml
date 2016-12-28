@@ -17,82 +17,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="名次"
-        android:id="@+id/textView9"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="     名次      答題數      日期"
+        android:id="@+id/textView20"
         android:layout_marginTop="35dp"
         android:layout_below="@+id/textView8"
-        android:layout_alignLeft="@+id/tableRow"
-        android:layout_alignStart="@+id/tableRow" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="答題數"
-        android:id="@+id/textView10"
-        android:layout_marginLeft="63dp"
-        android:layout_marginStart="63dp"
-        android:layout_above="@+id/tableRow"
-        android:layout_toRightOf="@+id/textView9"
-        android:layout_toEndOf="@+id/textView9" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="日期"
-        android:id="@+id/textView11"
-        android:layout_alignTop="@+id/textView10"
-        android:layout_alignRight="@+id/textView8"
-        android:layout_alignEnd="@+id/textView8"
-        android:layout_marginRight="26dp"
-        android:layout_marginEnd="26dp" />
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="26dp"
-        android:layout_below="@+id/textView9"
-        android:weightSum="1"
-        android:layout_marginLeft="35dp"
-        android:layout_marginStart="35dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/tableRow"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="37dp"
-        android:layout_marginEnd="37dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="39dp">
+        android:layout_alignParentStart="true"
+        android:textSize="30dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="1"
-            android:id="@+id/textView13"
-            android:textSize="22dp"
-            android:layout_weight="0.51" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="25"
-            android:id="@+id/textView12"
-            android:textSize="22dp"
-            android:layout_weight="0.37" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="2016-10-01"
-            android:id="@+id/textView14"
-            android:textSize="22dp"
-            android:layout_weight="0.20" />
-    </TableRow>
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/game_record_list"
+        android:layout_below="@+id/textView20"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.knowmemo.usermanagement;
 
 import android.app.Activity;
 import android.app.Service;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -33,6 +34,10 @@ public class ClockAlarmActivity extends Activity {
             vibrator = (Vibrator) this.getSystemService(Service.VIBRATOR_SERVICE);
             vibrator.vibrate(new long[]{100, 10, 100, 600}, 0);
         }
+
+        setContentView(R.layout.single_test);
+        Intent intent = new Intent(ClockAlarmActivity.this, AlarmSingleTestActivity.class);
+        startActivity(intent);
 
         final SimpleDialog dialog = new SimpleDialog(this, R.style.Theme_dialog);
         dialog.show();
