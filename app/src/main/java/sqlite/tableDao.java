@@ -737,10 +737,10 @@ public class tableDao {
         ArrayList<HashMap<String, Object>> result = new ArrayList<HashMap<String,Object>>();
         // 執行查詢
         String query;
-        if (getGameRecordCount() == 0) {
-            query = "SELECT * FROM `game_record` ORDER BY record DESC LIMIT " + getGameRecordCount();
+        if (getGameRecordCount() < 10) {
+            query = "SELECT * FROM game_record ORDER BY record DESC LIMIT " + getGameRecordCount();
         } else {
-            query = "SELECT * FROM `game_record` ORDER BY record DESC LIMIT 10";
+            query = "SELECT * FROM game_record ORDER BY record DESC LIMIT 10";
         }
         cursor = db.rawQuery(query, null);
         int i = 1;
