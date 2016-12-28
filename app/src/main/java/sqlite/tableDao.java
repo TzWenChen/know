@@ -74,9 +74,9 @@ public class tableDao {
             + "answer_id INTEGER(3))";
 
     public static final String createGameRocord = "CREATE TABLE IF NOT EXISTS " + game_record
-            + " (number INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + "record INTEGER(3),"
-            + "time DATETIME DEFAULT CURRENT_DATE";
+            + " (record_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "record INTEGER(3) NOT NULL,"
+            + "time VARCHAR(20) NOT NULL)";
 
 
     // 建構子，一般的應用都不需要修改
@@ -711,6 +711,78 @@ public class tableDao {
             result = cursor.getInt(0);
         }
         return result;
+    }
+
+
+    //新增GameRecord物件
+    public void insertGameRecord(sqlite.GameRecord addRecord) {
+        // 建立準備新增資料的ContentValues物件
+        ContentValues cv = new ContentValues();
+
+        // 加入ContentValues物件包裝的新增資料
+        // 第一個參數是欄位名稱， 第二個參數是欄位的資料
+        cv.put("record_id", addRecord.getRecord_id());
+        cv.put("record", addRecord.getRecord());
+        cv.put("time", addRecord.getTime());
+
+        // 第一個參數是表格名稱
+        // 第二個參數是沒有指定欄位值的預設值
+        // 第三個參數是包裝新增資料的ContentValues物件
+        db.insert(game_record, null, cv);
+    }
+
+    //取得前10名的遊戲紀錄
+    /*public List<GameRecord> getTop10GameRecord() {
+
+    }*/
+
+    // 把Cursor目前的資料包裝為GameQuestion物件
+    public GameRecord getRecordRecord(Cursor cursor) {
+        // 準備回傳結果用的物件
+        GameRecord result = new GameRecord();
+
+        result.setRecord_id(cursor.getInt(0));
+        result.setRecord(cursor.getInt(1));
+        result.setTime(cursor.getString(2));
+
+        // 回傳結果
+        return result;
+    }
+
+    //以id取得一筆GameQuestion資料
+    public GameRecord getRecordById(int r_id) {
+        GameRecord record = null;
+        String where = "question_id=" + r_id;
+        Cursor cursor = db.query(
+                game_record, null, where, null, null, null, null, null);
+        if(cursor.moveToFirst()) {
+            record = getRecordRecord(cursor);
+        }
+        cursor.close();
+        return record;
+    }
+
+    public int getGameRecordCount() {
+        int result = 0;
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + game_record, null);
+
+        if (cursor.moveToNext()) {
+            result = cursor.getInt(0);
+        }
+        return result;
+    }
+
+    public GameRecord getLastGameRecord() {
+        int last_id = getGameRecordCount();
+        GameRecord record = null;
+        String where = "record_id=" + last_id;
+        Cursor cursor = db.query(
+                game_record, null, where, null, null, null, null, null);
+        if(cursor.moveToFirst()) {
+            record = getRecordRecord(cursor);
+        }
+        cursor.close();
+        return record;
     }
 
     public void sampleWord() {
